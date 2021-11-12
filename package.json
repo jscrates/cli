@@ -1,0 +1,22 @@
+{
+  "name": "@package-manager/download-mod",
+  "version": "1.0.0",
+  "description": "",
+  "main": "download.js",
+  "scripts": {
+    "download": "node app.js download"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "commander": "^8.3.0",
+    "mico-spinner": "^1.4.0",
+    "semver": "^7.3.5"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true
+  }
+}
