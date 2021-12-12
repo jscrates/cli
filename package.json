@@ -1,18 +1,22 @@
 {
   "name": "@jscrates/cli",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "The CLI application of JSCrates.",
   "main": "jscrates.js",
   "author": "Team JSCrates",
   "private": true,
   "bin": "jscrates.js",
+  "type": "module",
   "scripts": {},
   "dependencies": {
     "axios": "^0.24.0",
     "chalk": "^4.1.2",
     "commander": "^8.3.0",
+    "globby": "^12.0.2",
+    "lodash.kebabcase": "^4.1.1",
     "mico-spinner": "^1.4.0",
-    "semver": "^7.3.5"
+    "semver": "^7.3.5",
+    "tar": "^6.1.11"
   },
   "prettier": {
     "semi": false,

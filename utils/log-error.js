@@ -1,7 +1,7 @@
 // @ts-check
 
-const chalk = require('chalk')
+import chalk from 'chalk'
 
 const logError = (...errors) => console.error(chalk.redBright(...errors))
 
-module.exports = logError
+export default logError

@@ -1,12 +1,12 @@
 // @ts-check
 
-const http = require('https')
-const fs = require('fs')
-const Spinner = require('mico-spinner')
-const semver = require('semver')
+import { get } from 'https'
+import { createWriteStream } from 'fs'
+import Spinner from 'mico-spinner'
+import semver from 'semver'
 
-const api = require('../lib/api')
-const logError = require('../utils/log-error')
+import api from '../lib/api.js'
+import logError from '../utils/log-error.js'
 
 /**
  * Action to download packages from repository.
@@ -34,7 +34,7 @@ async function downloadPackage(name, version) {
     const res = (await api.get(endpoint)).data
 
     // Create a write file stream to download the tar file
-    const file = fs.createWriteStream(
+    const file = createWriteStream(
       `./tars/${res?.dist?.tarball?.substring(
         res?.dist?.tarball?.lastIndexOf('/') + 1
       )}`
@@ -42,7 +42,7 @@ async function downloadPackage(name, version) {
 
     // Initiate the HTTP request to download package archive
     // (.targz) files from the cloud repository
-    http.get(res?.dist?.tarball, function (response) {
+    get(res?.dist?.tarball, function (response) {
       response.pipe(file)
     })
 
@@ -58,4 +58,4 @@ async function downloadPackage(name, version) {
   }
 }
 
-module.exports = downloadPackage
+export default downloadPackage
