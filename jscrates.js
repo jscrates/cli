@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 // @ts-check
 
 import { Command } from 'commander'
