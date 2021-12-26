@@ -79,15 +79,19 @@ async function publishPackage() {
 
     //? Create the tarball by including the files after respecting
     //? ignored files & directories.
-    tar.create(tarOpts, files)
+    await tar.create(tarOpts, files)
 
     const formData = new FormData()
 
-    formData.append('packageTarball', createReadStream(tarOpts.file))
-    formData.append('packageMeta', createReadStream(packageMetaFile))
+    formData.append('packageTarball', createReadStream(tarOpts.file), {
+      header: { 'Content-Type': 'application/x-gtar' },
+    })
+    formData.append('packageMeta', createReadStream(packageMetaFile), {
+      header: { 'Content-Type': 'application/json' },
+    })
 
     const { data } = await api.post('/pkg/publish', formData, {
-      headers: { ...formData.getHeaders() },
+      headers: formData.getHeaders(),
     })
 
     console.log(chalk.green(data?.message))
