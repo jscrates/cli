@@ -4,7 +4,9 @@
   "description": "The CLI application of JSCrates.",
   "main": "jscrates.js",
   "author": "Team JSCrates",
-  "bin": "jscrates.js",
+  "bin": {
+    "jscrates": "jscrates.js"
+  },
   "type": "module",
   "repository": {
     "type": "git",
