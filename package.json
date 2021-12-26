@@ -4,9 +4,12 @@
   "description": "The CLI application of JSCrates.",
   "main": "jscrates.js",
   "author": "Team JSCrates",
-  "private": true,
   "bin": "jscrates.js",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jscrates/cli"
+  },
   "scripts": {},
   "dependencies": {
     "axios": "^0.24.0",
