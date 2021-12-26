@@ -74,6 +74,7 @@ async function publishPackage() {
       //* We will follow the same tarball naming convention that NPM uses.
       //* Example: @jscrates/cli → jscrates-cli-1.0.0.tgz
       file: `${TEMP_TAR_DIR}/${kebabCasedPackageName}-${packageMeta.version}.tgz`,
+      gzip: true,
     }
 
     //? Create the tarball by including the files after respecting
