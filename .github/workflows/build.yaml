@@ -1,12 +1,9 @@
-name: Build Binaries for JSCrates
+name: Publish Binaries
 
 on:
   push:
     tags:
       - '*'
-
-  release:
-    types: [created]
 
   workflow_dispatch:
 
@@ -30,7 +27,7 @@ jobs:
       - name: Make build.sh executable
         run: chmod +x build.sh
 
-      - name: Build prject
+      - name: Build project
         run: bash ./build.sh
 
       - name: Upload binaries to release
