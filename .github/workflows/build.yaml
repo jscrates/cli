@@ -21,7 +21,7 @@ jobs:
       - run: npm ci
 
       - run: chmod +x build.sh
-      - run: build.sh
+      - run: bash ./build.sh
 
       - uses: actions/upload-artifact@v2
         with:
