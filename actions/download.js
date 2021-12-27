@@ -4,9 +4,8 @@ import { get } from 'https'
 import { createWriteStream } from 'fs'
 import Spinner from 'mico-spinner'
 import semver from 'semver'
-
 import api from '../lib/api.js'
-import logError from '../utils/log-error.js'
+import { logError } from '../utils/loggers.js'
 
 /**
  * Action to download packages from repository.
