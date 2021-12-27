@@ -1,6 +1,10 @@
 name: Build Binaries for JSCrates
 
 on:
+  push:
+    tags:
+      - '*'
+
   release:
     types: [created]
 
@@ -20,12 +24,20 @@ jobs:
         with:
           node-version: '14.x'
 
-      - run: npm ci
+      - name: Install deps
+        run: npm ci
 
-      - run: chmod +x build.sh
-      - run: bash ./build.sh
+      - name: Make build.sh executable
+        run: chmod +x build.sh
 
-      - uses: actions/upload-artifact@v2
+      - name: Build prject
+        run: bash ./build.sh
+
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v2
         with:
-          name: binaries
-          path: bin/
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: bin/jscrates*
+          tag: ${{ github.ref }}
+          overwrite: true
+          file_glob: true
