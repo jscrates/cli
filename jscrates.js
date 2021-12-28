@@ -1,7 +1,10 @@
 // @ts-check
 
+import { readFile } from 'fs/promises'
 import { Command } from 'commander'
 import Configstore from 'configstore'
+import checkOnlineStatus from 'is-online'
+
 import { CONFIG_FILE } from './lib/constants.js'
 import downloadPackage from './actions/download.js'
 import publishPackage from './actions/publish.js'
@@ -10,15 +13,24 @@ import register from './actions/auth/register.js'
 import logout from './actions/auth/logout.js'
 
 async function jscratesApp() {
+  const packageJSON = JSON.parse(await readFile('./package.json', 'utf-8'))
+  const isOnline = await checkOnlineStatus()
   const program = new Command()
   const configStore = new Configstore(CONFIG_FILE, {
     createdAt: Date.now(),
   })
+  const appState = {
+    isOnline,
+    configStore,
+  }
 
   program
     .name('jscrates')
     .description(`Welcome to JSCrates 📦, yet another package manager for Node`)
-    .version(`v2.2.0`, '-v, --version', 'display current version')
+    .version(packageJSON.version, '-v, --version', 'display current version')
+    .hook('preAction', (_, actionCommand) => {
+      actionCommand['__store'] = appState
+    })
 
   program
     .command('login')
@@ -47,7 +59,7 @@ async function jscratesApp() {
     .description(`Publish your package to JSCrates repository.`)
     .action(publishPackage)
 
-  program.parse(process.argv)
+  await program.parseAsync(process.argv)
 }
 
 jscratesApp()
