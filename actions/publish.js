@@ -8,7 +8,7 @@ import tempDirectory from 'temp-dir'
 import { globby } from 'globby'
 import chalk from 'chalk'
 import tar from 'tar'
-import api from '../lib/api.js'
+import api from '../lib/api/index.js'
 
 //? The tarball created in the process will be placed in the
 //? OS's temp directory.
