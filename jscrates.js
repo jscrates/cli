@@ -21,7 +21,7 @@ async function jscratesApp() {
   })
   const appState = {
     isOnline,
-    configStore,
+    isAuthed: configStore.has('auth.token'),
   }
 
   program
