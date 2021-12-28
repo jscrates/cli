@@ -1,30 +1,33 @@
 // @ts-check
 
 import Spinner from 'mico-spinner'
-import api from '../../lib/api/index.js'
+import { loginUser } from '../../lib/api/actions.js'
 import { promptCredentials } from '../../utils/prompts/index.js'
 import { logError, logSuccess } from '../../utils/loggers.js'
 
 function login(config) {
-  return async function () {
+  return async function (_, command) {
+    const store = command.__store
     const spinner = Spinner('Authenticating')
 
     try {
-      const auth = config.get('auth')
+      if (config.has('auth.token')) {
+        logSuccess('You are already authenticated.')
+        return process.exit(0)
+      }
 
-      if (auth && auth.token) {
-        return logSuccess('You are already authenticated.')
+      if (store.isOnline) {
+        logError(`You are not connected to the internet.`)
+        return process.exit(1)
       }
 
       const { email, password } = await promptCredentials()
 
       spinner.start()
 
-      const {
-        data: { data: loginData },
-      } = await api.put('/auth/login', { email, password })
+      const response = await loginUser({ email, password })
 
-      config.set('auth.token', loginData?.token)
+      config.set('auth.token', response?.token)
 
       spinner.succeed()
     } catch (error) {
