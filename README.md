@@ -2,22 +2,50 @@
 
 Official CLI client for JSCrates
 
-⚠️ _This project is still in development and we need your feedback to improve upon._
-
-Try out the early preview by following the steps below.
+> :alembic: _This project is still in development and we need your feedback to improve upon._
 
 ## How to try out the early preview?
+
+### NPM
 
 ```bash
 $ npm i https://github.com/jscrates/cli -g
 $ jscrates -v
 ```
 
+### Docker
+
+> Note: Prebuilt Docker images will be available soon.
+
+#### Building the Docker image
+
+```bash
+git clone https://github.com/jscrates/cli
+cd cli
+docker build -t jscrates-cli:latest .
+```
+
+#### Running the Docker image
+
+Before you can run the image, create a directory where the CLI can store its config.
+
+```bash
+mkdir $HOME/.jscrates
+```
+
+Now you can run the image.
+
+```bash
+docker run -e HOME=/tmp -v $HOME/.jscrates/docker:/tmp/.jscrates -it --rm jscrates-cli:latest
+```
+
+---
+
 ## Commands
 
 1. `download`
 
-#### Description 
+#### Description
 
 Downloads the specified package from the official repository of JSCrates.
 
@@ -26,8 +54,6 @@ Downloads the specified package from the official repository of JSCrates.
 ```bash
 $ jscrates download <package-name> [version]
 ```
-
----
 
 2. `publish`
 
@@ -43,11 +69,12 @@ This command requires you to set or open the terminal in your project directory.
 $ jscrates publish
 ```
 
+---
+
 ## Feedback
 
-Found a bug or application not working as expected? 
+Found a bug or application not working as expected?
 Please file an [issue](https://github.com/jscrates/cli/issues/new)
-
 
 ---
 
