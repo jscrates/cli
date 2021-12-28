@@ -16,7 +16,7 @@ function login(config) {
         return process.exit(0)
       }
 
-      if (store.isOnline) {
+      if (!store.isOnline) {
         logError(`You are not connected to the internet.`)
         return process.exit(1)
       }
