@@ -1,7 +1,5 @@
-import prompt from 'prompt'
+import createPrompt from '../../services/prompt.js'
 
-const MESSAGE = ''
-const DELIMITER = ' →'
 const CREDS_MIN_LENGTH = 6
 const promptSchema = {
   properties: {
@@ -26,11 +24,7 @@ const promptSchema = {
 
 async function promptCredentials() {
   try {
-    prompt.start()
-
-    prompt.message = MESSAGE
-    prompt.delimiter = DELIMITER
-
+    const prompt = createPrompt()
     return await prompt.get(promptSchema)
   } catch (error) {}
 }

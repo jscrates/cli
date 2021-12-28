@@ -1,41 +1,45 @@
 // @ts-check
 
 import Spinner from 'mico-spinner'
-import api from '../../lib/api.js'
-import promptCredentials from '../../utils/prompt-credentials.js'
-import { readConfigFile, writeConfig } from '../../utils/config-file.js'
+import { loginUser } from '../../lib/api/actions.js'
+import { promptCredentials } from '../../utils/prompts/index.js'
 import { logError, logSuccess } from '../../utils/loggers.js'
 
-async function login() {
-  const spinner = Spinner('Authenticating')
+function login(config) {
+  return async function (_, command) {
+    const store = command.__store
+    const spinner = Spinner('Authenticating')
 
-  try {
-    const config = await readConfigFile()
+    try {
+      if (store.isAuthed) {
+        logSuccess('You are already authenticated.')
+        return process.exit(0)
+      }
 
-    if (config?.auth) {
-      return logSuccess('Heads up! You are already authenticated.')
-    }
+      if (!store.isOnline) {
+        logError(`You are not connected to the internet.`)
+        return process.exit(1)
+      }
 
-    const { email, password } = await promptCredentials()
+      const { email, password } = await promptCredentials()
 
-    spinner.start()
+      spinner.start()
 
-    const {
-      data: { data: loginData },
-    } = await api.put('/auth/login', { email, password })
+      const response = await loginUser({ email, password })
 
-    await writeConfig({ auth: { token: loginData?.token } })
+      config.set('auth.token', response?.token)
 
-    spinner.succeed()
-  } catch (error) {
-    if (error.hasOwnProperty('isAxiosError')) {
-      const { error: apiError } = error.response.data
+      spinner.succeed()
+    } catch (error) {
+      if (error.hasOwnProperty('isAxiosError')) {
+        const { error: apiError } = error.response.data
+        spinner.fail()
+        return logError(apiError)
+      }
+
       spinner.fail()
-      return logError(apiError)
+      logError(error)
     }
-
-    spinner.fail()
-    logError(error)
   }
 }
 
