@@ -9,9 +9,9 @@ import {
 function register(config) {
   const spinner = Spinner('Registering a new user')
 
-  return async function () {
+  return async function (_, options) {
     try {
-      if (config?.has('auth.token')) {
+      if (options.__store.isAuthed) {
         if (
           !(await confirmationPrompt(
             `It seems like you are already logged in`,

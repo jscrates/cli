@@ -11,7 +11,7 @@ function login(config) {
     const spinner = Spinner('Authenticating')
 
     try {
-      if (config.has('auth.token')) {
+      if (store.isAuthed) {
         logSuccess('You are already authenticated.')
         return process.exit(0)
       }

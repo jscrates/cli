@@ -7,10 +7,10 @@ import { logSuccess, logWarn } from '../../utils/loggers.js'
 export default function logout(config) {
   const prompt = createPrompt()
 
-  return async function () {
+  return async function (_, options) {
     // There was no user in the first place.
-    if (!config.has('auth.token')) {
-      logWarn('You are not logged in.', chalk.red('\nAborting...'))
+    if (!options.__store.isAuthed) {
+      logWarn('You are not logged in.')
       return process.exit(0)
     }
 
