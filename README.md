@@ -9,8 +9,8 @@ Official CLI client for JSCrates
 ### NPM
 
 ```bash
-$ npm i https://github.com/jscrates/cli -g
-$ jscrates -v
+npm i https://github.com/jscrates/cli -g
+jscrates -v
 ```
 
 ### Docker
@@ -43,7 +43,7 @@ docker run -e HOME=/tmp -v $HOME/.jscrates/docker:/tmp/.jscrates -it --rm jscrat
 
 ## Commands
 
-1. `download`
+1. `jscrates download`
 
 #### Description
 
