@@ -52,7 +52,7 @@ Downloads the specified package(s) from official repository of JSCrates.
 #### Usage
 
 ```bash
-$ jscrates unload <packages>
+jscrates unload <packages>
 ```
 
 ### Example
@@ -73,7 +73,7 @@ Have a package that you want to share with the world? This command will help you
 This command requires you to set or open the terminal in your project directory.
 
 ```bash
-$ jscrates publish
+jscrates publish
 ```
 
 ---
