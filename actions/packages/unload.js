@@ -1,31 +1,35 @@
 // @ts-check
 
 import https from 'https'
-import { createWriteStream } from 'fs'
+import { createWriteStream, createReadStream } from 'fs'
 import Spinner from 'mico-spinner'
 import tempDirectory from 'temp-dir'
+import chalk from 'chalk'
 import tar from 'tar'
 import { getPackages } from '../../lib/api/actions.js'
 import { logError } from '../../utils/loggers.js'
 import upsertDir from '../../utils/upsert-dir.js'
-import { createReadStream } from 'fs'
 
 // This is the directory on the OS's temp location where
 // crates will be cached to enable offline operations.
-const cacheDir = '.jscrates-cache'
+const cacheDir = tempDirectory + '/.jscrates-cache'
 // Directory in the current project where packages will
 // be installed (unzipped). Consider this as `node_modules`
 // for JSCrates
 const installDir = './jscrates'
 
-const generateCacheDirPath = (packageName = '') => {
-  return `${tempDirectory}/${cacheDir}/${packageName}`
-}
+// Generates directory path suffixed with the package name.
+const suffixPackageName = (baseDir, packageName) => baseDir + '/' + packageName
 
-const generateCratesInstallDir = (packageName = '') => {
-  return `${installDir}/${packageName}`
-}
+// Used for storing packages in cache.
+const generateCacheDirPath = (packageName = '') =>
+  suffixPackageName(cacheDir, packageName)
 
+// Used for unzipping packages in the CWD.
+const generateCratesInstallDir = (packageName = '') =>
+  suffixPackageName(installDir, packageName)
+
+// Extracts tarball name from the provided URL.
 const getTarballName = (tarballURL) => {
   return tarballURL.substring(tarballURL.lastIndexOf('/') + 1)
 }
@@ -33,28 +37,33 @@ const getTarballName = (tarballURL) => {
 /**
  * Action to download packages from repository.
  *
+ * TODO: Implement logic to check packages in cache before
+ * requesting the API.
+ *
  * @param {string[]} packages
  */
 async function unloadPackages(packages, ...args) {
   // Since we are accepting variadic arguments, other arguments can only
   // be accessing by spreading them.
   const store = args[1].__store
-  const downloadingSpinner = Spinner(`Downloading`)
+  const spinner = Spinner(`Downloading packages`)
 
   try {
     if (!store?.isOnline) {
       return logError('Internet connection is required to download packages.')
     }
 
-    downloadingSpinner.start()
+    spinner.start()
 
     const response = await getPackages(packages)
 
-    if (response?.errors?.length) {
-      logError(response?.errors?.join('\n'))
-    }
-
+    // `data` contains all the resolved packages metadata.
+    // 1. Download the tarball to cache directory.
+    // 2. Read the cached tarball & install in CWD.
     response?.data?.map((res) => {
+      const timerLabel = chalk.green(`Installed \`${res.name}\` in`)
+      console.time(timerLabel)
+
       const tarballFileName = getTarballName(res?.dist?.tarball)
       const cacheLocation = upsertDir(generateCacheDirPath(res?.name))
       const installLocation = upsertDir(generateCratesInstallDir(res?.name))
@@ -79,12 +88,31 @@ async function unloadPackages(packages, ...args) {
             )
           })
       })
+
+      console.timeEnd(timerLabel)
     })
 
-    downloadingSpinner.succeed()
-  } catch (error) {
-    downloadingSpinner.fail()
+    console.log('\n')
 
+    // When only a few packages are resolved, the errors array
+    // contains list of packages that were not resolved.
+    // We shall display these for better UX.
+    console.group(chalk.yellow('The following packages could not be resolved:'))
+
+    if (response?.errors?.length) {
+      logError(response?.errors?.join('\n'))
+    }
+
+    console.groupEnd()
+
+    console.log('\n')
+
+    spinner.succeed()
+  } catch (error) {
+    spinner.fail()
+
+    // When all the requested packages could not be resolved
+    // API responds with status 404 and list of errors.
     if (Array.isArray(error)) {
       return logError(error.join('\n'))
     }
