@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-import { readFile } from 'fs/promises'
 import { Command } from 'commander'
 import Configstore from 'configstore'
 import checkOnlineStatus from 'is-online'
@@ -13,7 +12,6 @@ import register from './actions/auth/register.js'
 import logout from './actions/auth/logout.js'
 
 async function jscratesApp() {
-  const packageJSON = JSON.parse(await readFile('./package.json', 'utf-8'))
   const isOnline = await checkOnlineStatus()
   const program = new Command()
   const configStore = new Configstore(CONFIG_FILE, {
@@ -27,7 +25,8 @@ async function jscratesApp() {
   program
     .name('jscrates')
     .description(`Welcome to JSCrates 📦, yet another package manager for Node`)
-    .version(packageJSON.version, '-v, --version', 'display current version')
+    // TODO: Find a way to read version build time.
+    .version('0.0.0-alpha', '-v, --version', 'display current version')
     .hook('preAction', (_, actionCommand) => {
       actionCommand['__store'] = appState
     })
