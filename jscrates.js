@@ -1,4 +1,4 @@
-// @ts-check
+#!/usr/bin/env node
 
 import { readFile } from 'fs/promises'
 import { Command } from 'commander'
