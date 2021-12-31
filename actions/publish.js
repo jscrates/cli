@@ -53,7 +53,7 @@ async function publishPackage(_, options) {
 
     //? The `package-meta.json` file is entry for an project.
     //? The publish process revolves around this file.
-    const packageMetaFile = 'package.json'
+    const packageMetaFile = 'package-meta.json'
 
     //? Absence of `package-meta.json` indicates that project
     //? has not been initialized and hence cannot be published.
