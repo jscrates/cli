@@ -6,7 +6,7 @@ import Configstore from 'configstore'
 import checkOnlineStatus from 'is-online'
 
 import { CONFIG_FILE } from './lib/constants.js'
-import downloadPackage from './actions/download.js'
+import unloadPackages from './actions/packages/unload.js'
 import publishPackage from './actions/publish.js'
 import login from './actions/auth/login.js'
 import register from './actions/auth/register.js'
@@ -48,11 +48,17 @@ async function jscratesApp() {
     .action(logout(configStore))
 
   program
-    .command('download')
-    .description(`Download a package from official JSCrates registry`)
-    .argument('<package name>', 'package to download')
-    .argument('[version]', 'version of the package to download')
-    .action(downloadPackage)
+    .command('unload')
+    .description('🔽 Download package(s) from the JSCrates registry')
+    .argument('<packages...>', 'List of packages delimited by a space')
+    .action(unloadPackages)
+    .addHelpText(
+      'after',
+      '\nExamples:\n jscrates unload bodmas' +
+        '\n jscrates unload physics-formulae@1.0.0' +
+        '\n jscrates unload binary-search merge-sort bodmas@1.0.0'
+    )
+    .aliases(['u'])
 
   program
     .command('publish')
