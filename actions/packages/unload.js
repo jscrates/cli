@@ -97,7 +97,9 @@ async function unloadPackages(packages, ...args) {
     // When only a few packages are resolved, the errors array
     // contains list of packages that were not resolved.
     // We shall display these for better UX.
-    console.group(chalk.yellow('The following packages could not be resolved:'))
+    console.group(
+      chalk.yellow('The following errors occured during this operation:')
+    )
 
     if (response?.errors?.length) {
       logError(response?.errors?.join('\n'))
