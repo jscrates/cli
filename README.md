@@ -43,16 +43,23 @@ docker run -e HOME=/tmp -v $HOME/.jscrates/docker:/tmp/.jscrates -it --rm jscrat
 
 ## Commands
 
-1. `jscrates download`
+1. `unload`
 
 #### Description
 
-Downloads the specified package from the official repository of JSCrates.
+Downloads the specified package(s) from official repository of JSCrates.
 
 #### Usage
 
 ```bash
-$ jscrates download <package-name> [version]
+jscrates unload <packages>
+```
+
+### Example
+
+```bash
+jscrates unload physics bodmas@1.0.0
+jscrates unload @jscrates/cli @jscrates/unload@1.0.0
 ```
 
 2. `publish`
@@ -66,7 +73,7 @@ Have a package that you want to share with the world? This command will help you
 This command requires you to set or open the terminal in your project directory.
 
 ```bash
-$ jscrates publish
+jscrates publish
 ```
 
 ---

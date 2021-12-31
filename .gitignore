@@ -1,4 +1,6 @@
+.jscratesrc.json
+.jscrates-cache
 bin
 node_modules
 tars
-.jscratesrc.json
+jscrates
