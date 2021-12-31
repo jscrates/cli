@@ -43,7 +43,7 @@ docker run -e HOME=/tmp -v $HOME/.jscrates/docker:/tmp/.jscrates -it --rm jscrat
 
 ## Commands
 
-1. `jscrates unload`
+1. `unload`
 
 #### Description
 
