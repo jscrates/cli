@@ -1,6 +1,6 @@
 {
   "name": "@jscrates/cli",
-  "version": "2.5.1",
+  "version": "2.6.0",
   "description": "Official CLI client for JSCrates.",
   "main": "jscrates.js",
   "author": "Team JSCrates",
@@ -24,7 +24,6 @@
     "lodash.kebabcase": "^4.1.1",
     "mico-spinner": "^1.4.0",
     "prompt": "^1.2.0",
-    "semver": "^7.3.5",
     "tar": "^6.1.11",
     "temp-dir": "^2.0.0"
   },
