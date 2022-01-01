@@ -66,7 +66,9 @@ async function unloadPackages(packages, ...args) {
 
       const tarballFileName = getTarballName(res?.dist?.tarball)
       const cacheLocation = upsertDir(generateCacheDirPath(res?.name))
-      const installLocation = upsertDir(generateCratesInstallDir(res?.name))
+      const installLocation = upsertDir(
+        generateCratesInstallDir(`${res?.name}/${res?.dist?.version}`)
+      )
 
       // Create a write file stream to download the tar file
       const file = createWriteStream(`${cacheLocation}/${tarballFileName}`)
