@@ -8,8 +8,10 @@ export default function logout(config) {
   const prompt = createPrompt()
 
   return async function (_, options) {
+    const store = options.parent.appState
+
     // There was no user in the first place.
-    if (!options.__store.isAuthed) {
+    if (!store.isAuthed) {
       logWarn('You are not logged in.')
       return process.exit(0)
     }

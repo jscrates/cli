@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
-import { Command } from 'commander'
 import Configstore from 'configstore'
 import checkOnlineStatus from 'is-online'
 
+import BaseCommand from './lib/base-command.js'
 import { CONFIG_FILE } from './lib/constants.js'
 import unloadPackages from './actions/packages/unload.js'
 import publishPackage from './actions/publish.js'
@@ -13,23 +13,16 @@ import logout from './actions/auth/logout.js'
 
 async function jscratesApp() {
   const isOnline = await checkOnlineStatus()
-  const program = new Command()
-  const configStore = new Configstore(CONFIG_FILE, {
-    createdAt: Date.now(),
-  })
-  const appState = {
+  const configStore = new Configstore(CONFIG_FILE)
+  const program = new BaseCommand({
     isOnline,
     isAuthed: configStore.has('auth.token'),
-  }
+  })
 
   program
     .name('jscrates')
     .description(`Welcome to JSCrates 📦, yet another package manager for Node`)
-    // TODO: Find a way to read version build time.
-    .version('0.0.0-alpha', '-v, --version', 'display current version')
-    .hook('preAction', (_, actionCommand) => {
-      actionCommand['__store'] = appState
-    })
+    .version('v2.6.2', '-v, --version', 'Display installed version of JSCrates')
 
   program
     .command('login')

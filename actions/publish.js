@@ -28,7 +28,7 @@ const createTempTarDirIfNotExists = () => {
  * Action to publish a package to JSCrates repository.
  */
 async function publishPackage(_, options) {
-  const store = options.__store
+  const store = options.parent.appState
   const spinner = Spinner('Publishing package')
 
   try {
@@ -119,8 +119,6 @@ async function publishPackage(_, options) {
     }
 
     logError(error)
-  } finally {
-    return process.exit(1)
   }
 }
 

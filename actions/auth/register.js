@@ -10,8 +10,10 @@ function register(config) {
   const spinner = Spinner('Registering a new user')
 
   return async function (_, options) {
+    const store = options.parent.appState
+
     try {
-      if (options.__store.isAuthed) {
+      if (store.isAuthed) {
         if (
           !(await confirmationPrompt(
             `It seems like you are already logged in`,

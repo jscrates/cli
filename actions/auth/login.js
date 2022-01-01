@@ -6,8 +6,8 @@ import { promptCredentials } from '../../utils/prompts/index.js'
 import { logError, logSuccess } from '../../utils/loggers.js'
 
 function login(config) {
-  return async function (_, command) {
-    const store = command.__store
+  return async function (_, options) {
+    const store = options.parent.appState
     const spinner = Spinner('Authenticating')
 
     try {
