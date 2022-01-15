@@ -45,7 +45,7 @@ const getTarballName = (tarballURL) => {
 async function unloadPackages(packages, ...args) {
   // Since we are accepting variadic arguments, other arguments can only
   // be accessing by spreading them.
-  const store = args[1].parent.appState
+  const store = args[1].appState
   const spinner = Spinner(`Downloading packages`)
 
   try {

@@ -8,7 +8,7 @@ export default function logout(config) {
   const prompt = createPrompt()
 
   return async function (_, options) {
-    const store = options.parent.appState
+    const store = options.appState
 
     // There was no user in the first place.
     if (!store.isAuthed) {

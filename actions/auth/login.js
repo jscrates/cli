@@ -7,7 +7,7 @@ import { logError, logSuccess } from '../../utils/loggers.js'
 
 function login(config) {
   return async function (_, options) {
-    const store = options.parent.appState
+    const store = options.appState
     const spinner = Spinner('Authenticating')
 
     try {

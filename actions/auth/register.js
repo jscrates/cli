@@ -10,7 +10,7 @@ function register(config) {
   const spinner = Spinner('Registering a new user')
 
   return async function (_, options) {
-    const store = options.parent.appState
+    const store = options.appState
 
     try {
       if (store.isAuthed) {
