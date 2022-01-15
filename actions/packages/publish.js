@@ -9,8 +9,8 @@ import { globby } from 'globby'
 import chalk from 'chalk'
 import tar from 'tar'
 
-import api from '../lib/api/index.js'
-import { logError, logInfo, logSuccess } from '../utils/loggers.js'
+import api from '../../lib/api/index.js'
+import { logError, logInfo, logSuccess } from '../../utils/loggers.js'
 
 //? The tarball created in the process will be placed in the OS's temp directory.
 // TODO: Do we need to clean this directory post publishing?
@@ -28,7 +28,7 @@ const createTempTarDirIfNotExists = () => {
  * Action to publish a package to JSCrates repository.
  */
 async function publishPackage(_, options) {
-  const store = options.parent.appState
+  const store = options.appState
   const spinner = Spinner('Publishing package')
 
   try {
