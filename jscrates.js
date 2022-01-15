@@ -6,7 +6,7 @@ import checkOnlineStatus from 'is-online'
 import BaseCommand from './lib/base-command.js'
 import { CONFIG_FILE } from './lib/constants.js'
 import unloadPackages from './actions/packages/unload.js'
-import publishPackage from './actions/publish.js'
+import publishPackage from './actions/packages/publish.js'
 import login from './actions/auth/login.js'
 import register from './actions/auth/register.js'
 import logout from './actions/auth/logout.js'
@@ -22,7 +22,7 @@ async function jscratesApp() {
   program
     .name('jscrates')
     .description(`Welcome to JSCrates 📦, yet another package manager for Node`)
-    .version('v2.6.2', '-v, --version', 'Display installed version of JSCrates')
+    .version('v2.6.3', '-v, --version', 'Display installed version of JSCrates')
 
   program
     .command('login')
