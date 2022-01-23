@@ -1,0 +1,3 @@
+#!/bin/bash
+
+rm --recursive --verbose bin
