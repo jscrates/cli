@@ -1,6 +1,6 @@
 {
   "name": "@jscrates/cli",
-  "version": "2.6.3",
+  "version": "2.6.4",
   "description": "Official CLI client for JSCrates.",
   "main": "jscrates.js",
   "author": "Team JSCrates",
@@ -12,18 +12,21 @@
     "type": "git",
     "url": "https://github.com/jscrates/cli"
   },
-  "scripts": {},
+  "scripts": {
+    "build": "scripts/build",
+    "clean": "scripts/clean"
+  },
   "dependencies": {
-    "axios": "^0.24.0",
-    "chalk": "^4.1.2",
+    "axios": "^0.25.0",
+    "chalk": "^5.0.0",
     "commander": "^8.3.0",
     "configstore": "^6.0.0",
     "form-data": "^4.0.0",
-    "globby": "^12.0.2",
+    "globby": "^12.2.0",
     "is-online": "^9.0.1",
     "lodash.kebabcase": "^4.1.1",
     "mico-spinner": "^1.4.0",
-    "prompt": "^1.2.0",
+    "prompt": "^1.2.1",
     "tar": "^6.1.11",
     "temp-dir": "^2.0.0"
   },

@@ -22,7 +22,7 @@ async function jscratesApp() {
   program
     .name('jscrates')
     .description(`Welcome to JSCrates 📦, yet another package manager for Node`)
-    .version('v2.6.3', '-v, --version', 'Display installed version of JSCrates')
+    .version('v2.6.4', '-v, --version', 'Display installed version of JSCrates')
 
   program
     .command('login')
