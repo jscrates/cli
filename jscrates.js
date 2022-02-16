@@ -7,6 +7,7 @@ import BaseCommand from './lib/base-command.js'
 import { CONFIG_FILE } from './lib/constants.js'
 import unloadPackages from './actions/packages/unload.js'
 import publishPackage from './actions/packages/publish.js'
+import unloadAndResolvePackages from './actions/packages/unload-with-resolve.js'
 import login from './actions/auth/login.js'
 import register from './actions/auth/register.js'
 import logout from './actions/auth/logout.js'
@@ -22,7 +23,7 @@ async function jscratesApp() {
   program
     .name('jscrates')
     .description(`Welcome to JSCrates 📦, yet another package manager for Node`)
-    .version('v2.6.4', '-v, --version', 'Display installed version of JSCrates')
+    .version('v2.6.5', '-v, --version', 'Display installed version of JSCrates')
 
   program
     .command('login')
@@ -51,6 +52,13 @@ async function jscratesApp() {
         '\n jscrates unload binary-search merge-sort bodmas@1.0.0'
     )
     .aliases(['u'])
+
+  // For testing dependency resolution.
+  program
+    .command('unload-resolve')
+    .description('🔽 Download package(s) from the JSCrates registry')
+    .argument('<packages...>', 'List of packages delimited by a space')
+    .action(unloadAndResolvePackages)
 
   program
     .command('publish')
