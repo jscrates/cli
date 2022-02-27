@@ -1,14 +1,15 @@
 // @ts-check
 
+import tar from 'tar'
+import chalk from 'chalk'
 import https from 'https'
-import { createWriteStream, createReadStream } from 'fs'
 import Spinner from 'mico-spinner'
 import tempDirectory from 'temp-dir'
-import chalk from 'chalk'
-import tar from 'tar'
-import { getPackages } from '../../lib/api/actions.js'
+import { createWriteStream, createReadStream } from 'fs'
+
 import { logError } from '../../utils/loggers.js'
 import upsertDir from '../../utils/upsert-dir.js'
+import { getPackages } from '../../lib/api/actions.js'
 
 // This is the directory on the OS's temp location where
 // crates will be cached to enable offline operations.
@@ -94,33 +95,20 @@ async function unloadPackages(packages, ...args) {
       console.timeEnd(timerLabel)
     })
 
-    console.log('\n')
-
-    // When only a few packages are resolved, the errors array
-    // contains list of packages that were not resolved.
-    // We shall display these for better UX.
-    console.group(
-      chalk.yellow('The following errors occured during this operation:')
-    )
-
     if (response?.errors?.length) {
+      // When only a few packages are resolved, the errors array
+      // contains list of packages that were not resolved.
+      // We shall display these for better UX.
+      console.group(
+        chalk.yellow('\nThe following errors occured during this operation:')
+      )
       logError(response?.errors?.join('\n'))
+      console.groupEnd()
     }
-
-    console.groupEnd()
-
-    console.log('\n')
 
     spinner.succeed()
   } catch (error) {
     spinner.fail()
-
-    // When all the requested packages could not be resolved
-    // API responds with status 404 and list of errors.
-    if (Array.isArray(error)) {
-      return logError(error.join('\n'))
-    }
-
     return logError(error)
   }
 }
